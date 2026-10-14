@@ -60,6 +60,18 @@ def _yuan(cents: int) -> str:
     return f"¥{cents / 100:.2f}"
 
 
+def _is_1024(date: str) -> bool:
+    """卡片日期是 10-24（程序员节）时返回 True。"""
+    return bool(date) and date[5:] == "10-24"
+
+
+def _easter_egg_1024(date: str, y: float) -> str:
+    """10-24 程序员节彩蛋行。"""
+    if not _is_1024(date):
+        return ""
+    return f'<text class="small" x="52" y="{y}" fill="#BA7517">Happy 0x400 Day · 1024 程序员节快乐</text>'
+
+
 def _barcode(seed_text: str, width: int, x: float, y: float, height: float = 34) -> str:
     """由方案内容确定性生成装饰条形码（纯 SVG rect，无随机依赖）。"""
     digest = hashlib.sha256(seed_text.encode("utf-8")).digest()
@@ -149,6 +161,7 @@ def render_receipt_svg(
   <line class="rule" x1="46" y1="{bottom + (70 if plan.coupon is not None else 50)}" x2="374" y2="{bottom + (70 if plan.coupon is not None else 50)}"/>
   <text class="rowb" x="210" y="{bottom + (96 if plan.coupon is not None else 76)}" text-anchor="middle">人均 {_yuan(plan.per_person)}</text>
   {_barcode(seed, 200, 110, bottom + (110 if plan.coupon is not None else 90))}
+  <text class="small" x="210" y="{height - 84}" text-anchor="middle" fill="#BA7517">{"Happy 0x400 Day · 1024 程序员节快乐" if _is_1024(date) else ""}</text>
   <text class="small muted" x="210" y="{height - 66}" text-anchor="middle">数据来自麦当劳中国 MCP · 非官方参赛作品</text>
   <text class="small muted" x="210" y="{height - 48}" text-anchor="middle">mcd-host 生成 · 金额以实时价格为准</text>
   <polyline class="accent" points="{zigzag_bottom}" fill="none" stroke-width="2"/>
@@ -238,6 +251,7 @@ def _render_card_svg(
   <rect x="52" y="{bottom + (66 if plan.coupon is not None else 44)}" width="150" height="30" rx="15" class="accent"/>
   <text class="rowb" x="127" y="{bottom + (85 if plan.coupon is not None else 63)}" text-anchor="middle" fill="#412402">人均 {_yuan(plan.per_person)}</text>
 
+  {_easter_egg_1024(date, height - 60)}
   <text class="small muted" x="52" y="{height - 44}">由 mcd-host 生成 · 数据来自麦当劳中国 MCP · 非官方参赛作品</text>
   <text class="small muted" x="52" y="{height - 28}">金额以麦当劳下单时实时价格为准，本卡仅供请客参考</text>
 </svg>'''

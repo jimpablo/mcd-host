@@ -76,6 +76,16 @@ def test_receipt_escapes_names():
     assert "<script>alert" not in svg
 
 
+def test_1024_easter_egg():
+    plan = _plan()
+    normal = render_card_svg(plan, date="2026-10-20")
+    special = render_card_svg(plan, date="2026-10-24")
+    assert "0x400" not in normal
+    assert "Happy 0x400 Day" in special
+    receipt_special = render_card_svg(plan, date="2026-10-24", style="receipt")
+    assert "Happy 0x400 Day" in receipt_special
+
+
 def test_card_deterministic():
     first = render_card_svg(_plan(), store="演示·东道主店", date="2026-10-24")
     second = render_card_svg(_plan(), store="演示·东道主店", date="2026-10-24")

@@ -113,6 +113,17 @@ mcd-host plan --people 6 --budget 300 --menu menu.json --coupons coupons.json \
 
 `plan` 也支持一次给全：把所有数据写进一个 JSON（`{"request": {...}, "menu": {...}, "coupons": {...}, "nutrition": {...}}`），用 `--input` 传入——这是 Agent 的推荐用法。
 
+**贴到 GitHub 个人主页**（全程在本机手动完成）：
+
+1. 建一个和用户名同名的仓库 `<用户名>/<用户名>`，GitHub 会把它的 README 显示在你的个人主页上；
+2. 在本机运行 `mcd-host plan … --card -o <那个仓库的目录>/host-card.svg`（或 `--style receipt` 生成小票版）；
+3. 在那个仓库的 README.md 里加一行 `<img src="host-card.svg" alt="我的请客方案卡">`；
+4. 自己 `git add`、`git commit`、`git push`。
+
+**不要用 GitHub Actions 定时生成。** MCP Token 不能放进 CI（服务规则不允许把凭证托管到第三方平台），也不允许自动化调用。想更新就在本机再跑一次。
+
+10-24 程序员节当天生成的卡片会带 「Happy 0x400 Day」 彩蛋标语。
+
 ## 交给你的 Agent
 
 [mcd-host](https://github.com/jimpablo/mcd-host) 同时是一个 **Agent Skill**。把下面这段话原样发给 WorkBuddy / Claude Code / Kiro（Agent 需要能在本机执行命令）：
