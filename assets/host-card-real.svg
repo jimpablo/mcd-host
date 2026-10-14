@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 546" width="100%" role="img">
+  <title>麦门东道主 · 请客方案卡</title>
+  <desc>6 人晚饭请客方案，应付 ¥218.70，人均 ¥36.45</desc>
+  <style>
+    :root { --sans: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+    
+  .bg { fill: var(--bg); }
+  .panel { fill: var(--panel); stroke: var(--border); stroke-width: 0.5; }
+  .ink { fill: var(--ink); }
+  .muted { fill: var(--muted); }
+  .accent { fill: var(--accent); }
+  .rule { stroke: var(--rule); stroke-width: 0.5; stroke-dasharray: 3 3; }
+  .solid { stroke: var(--rule); stroke-width: 0.5; }
+  .title { font: 500 17px var(--sans); }
+  .sub { font: 400 12px var(--sans); }
+  .meta { font: 400 12px var(--sans); }
+  .row { font: 400 13px var(--sans); }
+  .rowb { font: 500 13px var(--sans); }
+  .small { font: 400 11px var(--sans); }
+  .amount { font: 500 15px var(--sans); }
+  .big { font: 500 20px var(--sans); }
+
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #1C1B1A; --panel: #26241F; --border: #4A473E; --ink: #F1EFE8; --muted: #A9A69B; --rule: #4A473E; --accent: #EF9F27; }
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #FAEEDA; --panel: #FFFDF7; --border: #E5DCC8; --ink: #412402; --muted: #854F0B; --rule: #E5DCC8; --accent: #EF9F27; }
+    }
+  </style>
+  
+  <defs>
+    <g id="burger">
+      <rect x="0" y="0" width="34" height="7" rx="3.5" class="accent"/>
+      <rect x="2" y="8.5" width="30" height="4.5" rx="2" class="accent" opacity="0.75"/>
+      <rect x="1" y="14.5" width="32" height="5" rx="2.5" class="accent" opacity="0.9"/>
+      <rect x="0" y="21" width="34" height="7" rx="3.5" class="accent"/>
+    </g>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="680" height="546" rx="16"/>
+  <rect class="panel" x="24" y="24" width="632" height="498" rx="14"/>
+
+  <use href="#burger" x="52" y="52"/>
+  <text class="title ink" x="104" y="62">麦门东道主</text>
+  <text class="sub muted" x="104" y="82">请客方案 · 晚饭 · 6 人　·　麦当劳上海黄浦华旭国际大厦餐厅　·　2026-10-14</text>
+
+  <line class="solid" x1="52" y1="104" x2="628" y2="104"/>
+
+  
+  <text class="row ink" x="52" y="132">酥脆无双套餐<tspan class="muted" dx="6">套餐</tspan></text><text class="rowb ink" x="628" y="132" text-anchor="end">×2　¥40.00</text><line class="rule" x1="52" y1="141" x2="628" y2="141"/>
+  <text class="row ink" x="52" y="158">“辣”么快乐套餐<tspan class="muted" dx="6">套餐</tspan></text><text class="rowb ink" x="628" y="158" text-anchor="end">×2　¥48.00</text><line class="rule" x1="52" y1="167" x2="628" y2="167"/>
+  <text class="row ink" x="52" y="184">麦乐鸡套餐<tspan class="muted" dx="6">套餐</tspan></text><text class="rowb ink" x="628" y="184" text-anchor="end">×2　¥50.00</text><line class="rule" x1="52" y1="193" x2="628" y2="193"/>
+  <text class="row ink" x="52" y="210">蘸酱炸鸡<tspan class="muted" dx="6">小食</tspan></text><text class="rowb ink" x="628" y="210" text-anchor="end">×2　¥23.80</text><line class="rule" x1="52" y1="219" x2="628" y2="219"/>
+  <text class="row ink" x="52" y="236">蘸酱麦麦脆汁鸡<tspan class="muted" dx="6">小食</tspan></text><text class="rowb ink" x="628" y="236" text-anchor="end">×1　¥11.90</text><line class="rule" x1="52" y1="245" x2="628" y2="245"/>
+  <text class="row ink" x="52" y="262">玉米杯<tspan class="muted" dx="6">小食</tspan></text><text class="rowb ink" x="628" y="262" text-anchor="end">×1　¥13.00</text><line class="rule" x1="52" y1="271" x2="628" y2="271"/>
+  <text class="row ink" x="52" y="288">薯条<tspan class="muted" dx="6">小食</tspan></text><text class="rowb ink" x="628" y="288" text-anchor="end">×2　¥27.00</text><line class="rule" x1="52" y1="297" x2="628" y2="297"/>
+  <text class="row ink" x="52" y="314">圆筒冰淇淋<tspan class="muted" dx="6">甜品</tspan></text><text class="rowb ink" x="628" y="314" text-anchor="end">×2　¥10.00</text><line class="rule" x1="52" y1="323" x2="628" y2="323"/>
+  <text class="row ink" x="52" y="340">派<tspan class="muted" dx="6">甜品</tspan></text><text class="rowb ink" x="628" y="340" text-anchor="end">×1　¥8.50</text><line class="rule" x1="52" y1="349" x2="628" y2="349"/>
+
+  <text class="row muted" x="52" y="418">小计</text>
+  <text class="rowb ink" x="628" y="418" text-anchor="end">¥232.20</text>
+  <text class="row muted" x="52" y="392">优惠（中薯条买一送一）</text><text class="rowb" x="628" y="392" text-anchor="end" fill="#1D9E75">-¥13.50</text>
+  <text class="amount ink" x="52" y="448">应付</text>
+  <text class="big ink" x="628" y="448" text-anchor="end">¥218.70</text>
+
+  <rect x="52" y="462" width="150" height="30" rx="15" class="accent"/>
+  <text class="rowb" x="127" y="481" text-anchor="middle" fill="#412402">人均 ¥36.45</text>
+
+  <text class="small muted" x="52" y="502">由 mcd-host 生成 · 数据来自麦当劳中国 MCP · 非官方参赛作品</text>
+  <text class="small muted" x="52" y="518">金额以麦当劳下单时实时价格为准，本卡仅供请客参考</text>
+</svg>

@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.venv/
+.env
+.pytest-tmp/
+mcd-contributions-*.svg
+mcd-host-*.svg
+.DS_Store

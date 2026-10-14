@@ -1,0 +1,20 @@
+{
+  "storeCode": "012345",
+  "meals": [
+    {"mealCode": "9001", "mealName": "巨无霸", "currentPrice": 2100, "category": "汉堡", "tags": ["招牌"]},
+    {"mealCode": "9002", "mealName": "麦辣鸡腿堡", "currentPrice": 2000, "category": "汉堡"},
+    {"mealCode": "9003", "mealName": "中薯条", "currentPrice": 1150, "category": "小食"},
+    {"mealCode": "9004", "mealName": "中可乐", "currentPrice": 900, "category": "饮料"},
+    {"mealCode": "9005", "mealName": "麦旋风", "salePrice": 1000, "category": "甜品"},
+    {"mealCode": "9006", "mealName": "神秘限定堡", "currentPrice": 2500, "category": "汉堡"}
+  ],
+  "coupons": [
+    {"couponId": "7001", "name": "满60减15", "threshold": 6000, "amount": 1500},
+    {"couponId": "7002", "name": "无门槛立减2元", "amount": 200}
+  ],
+  "nutrition": [
+    {"name": "巨无霸", "calorie": 500},
+    {"name": "中薯条", "calorie": 290},
+    {"name": "中可乐", "calorie": 150}
+  ]
+}
