@@ -1,5 +1,11 @@
 # 更新日志
 
+## 0.2.0（2026-10-14）
+
+- `card --style receipt`：竖版热敏小票风请客方案卡（锯齿边、装饰条形码由方案内容确定性生成），适合发朋友圈/小红书；`plan --card --style` 同步支持
+- `assets/demo.svg`：README 终端演示动画（打字机效果，纯 SVG + CSS，遵守 prefers-reduced-motion），由 `scripts/make_demo_svg.py` 生成
+- GitHub 仓库补充 topics（mcp/mcdonalds/agent/skill/workbuddy 等）提升发现性
+
 ## 0.1.0（2026-10-14）
 
 - 首个版本：麦门东道主 · 请客参谋

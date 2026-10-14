@@ -53,6 +53,29 @@ def test_text_card_contains_amounts():
     assert re.search(r"¥\d+\.\d{2}", text)
 
 
+def test_receipt_style_svg():
+    plan = _plan()
+    svg = render_card_svg(plan, store="演示·东道主店", date="2026-10-24", style="receipt")
+    assert svg.startswith("<svg")
+    assert "请客小票" in svg
+    assert "viewBox=\"0 0 420" in svg
+    # 自包含 + 关键信息
+    assert "https://" not in svg
+    assert "人均" in svg
+    assert "演示·东道主店" in svg
+    # 装饰条形码由内容确定性生成
+    first = render_card_svg(plan, style="receipt")
+    second = render_card_svg(plan, style="receipt")
+    assert first == second
+
+
+def test_receipt_escapes_names():
+    plan = _plan()
+    plan.lines[0].name = '<script>alert("x")</script>'
+    svg = render_card_svg(plan, style="receipt")
+    assert "<script>alert" not in svg
+
+
 def test_card_deterministic():
     first = render_card_svg(_plan(), store="演示·东道主店", date="2026-10-24")
     second = render_card_svg(_plan(), store="演示·东道主店", date="2026-10-24")

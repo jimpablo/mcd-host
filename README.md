@@ -19,6 +19,8 @@ mcd-host：麦辣鸡腿堡套餐×2 + 板烧鸡腿堡套餐×2 + 巨无霸套餐
 2. **凑券心累**：实时拉取门店券和我的券，一单一张券的规则下挑最省的那张；差一点满减时会提醒「再加 ¥X 可用××省 ¥Y」；
 3. **算账麻烦**：人均金额直接算好，忌口自动避开，热量超标有提醒。
 
+![终端演示：mcd-host demo 一键出方案](assets/demo.svg)
+
 ## 30 秒试玩，无需 Token
 
 装了 uv 的话，一行就能跑（合成数据，不会真的查门店、更不会下单）：
@@ -64,9 +66,13 @@ mcd-host demo -o ~/Desktop/host.svg              # 顺便生成分享卡片
 分享卡片已写入：~/mcd-host-card-demo.svg
 ```
 
-生成的分享卡片（自包含 SVG，浅色/深色自适应）：
+生成的分享卡片（自包含 SVG，浅色/深色自适应），两种样式随场合选：
 
 ![请客方案卡示例](assets/host-card-demo.svg)
+
+`--style receipt` 是竖版热敏小票，带锯齿边和条形码，适合发朋友圈/小红书：
+
+![请客小票示例](assets/host-receipt-demo.svg)
 
 ## 接入真实账户（3 步）
 
@@ -136,11 +142,11 @@ Agent：（fetch stores → fetch menu/coupons/nutrition → mcd-host plan --inp
 | 命令 | 作用 | 会改动账户吗 |
 |---|---|---|
 | `plan` | 凑一桌：套餐优先、预算控制、忌口过滤、挑最省的券、算人均和热量 | 否 |
-| `card` | 由方案生成分享卡片 SVG（浅色/深色自适应、自包含） | 否 |
+| `card` | 由方案生成分享卡片 SVG（`--style card` 方案卡 / `receipt` 请客小票） | 否 |
 | `demo` | 合成数据一键演示，不需要 Token | 否 |
 | `fetch stores/menu/coupons/nutrition` | 用 MCP Token 拉取只读数据 | 否 |
 
-常用参数：`--people` 人数、`--budget` 总预算（元）、`--occasion` 场合（lunch/dinner/tea/breakfast/birthday/team）、`--avoid` 忌口、`--prefer` 偏好、`--must` 必点 code、`--max-cal` 人均热量上限、`--with-dessert/--no-dessert` 甜品开关、`--store/--host/--date` 卡片信息、`--card`/`-o` 生成卡片。所有命令支持 `--json`（给 Agent 和脚本用）。
+常用参数：`--people` 人数、`--budget` 总预算（元）、`--occasion` 场合（lunch/dinner/tea/breakfast/birthday/team）、`--avoid` 忌口、`--prefer` 偏好、`--must` 必点 code、`--max-cal` 人均热量上限、`--with-dessert/--no-dessert` 甜品开关、`--style` 卡片样式、`--store/--host/--date` 卡片信息、`--card`/`-o` 生成卡片。所有命令支持 `--json`（给 Agent 和脚本用）。
 
 `mcd-host help` 看对照表；`mcd-host plan -h` 看单个命令的参数。
 
@@ -169,8 +175,8 @@ Agent：（fetch stores → fetch menu/coupons/nutrition → mcd-host plan --inp
 
 ## 路线图
 
-- **P1**：`--style` 多种卡片样式（小票/竖版）；历史方案本地记录，常吃的搭配一键复用；
-- **P2**：得来速/麦乐送场景的地址与配送费纳入方案；多人忌口逐人标注。
+- **P1**：历史方案本地记录，常吃的搭配一键复用；多人忌口逐人标注；
+- **P2**：得来速/麦乐送场景的地址与配送费纳入方案。
 
 欢迎提 Issue 和 PR。新命令请保持「只读命令零副作用、写操作一律不碰」这条规矩。
 

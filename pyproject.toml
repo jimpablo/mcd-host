@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcd-host"
-version = "0.1.0"
+version = "0.2.0"
 description = "麦门东道主 · 请客参谋：基于麦当劳中国 MCP 的请客/团餐凑桌、分摊与分享卡片工具"
 readme = "README.md"
 requires-python = ">=3.9"

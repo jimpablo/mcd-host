@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 462" width="100%" role="img">
+  <title>mcd-host 终端演示</title>
+  <desc>打字机效果演示：运行 mcd-host demo，自动生成 6 人请客方案</desc>
+  <style>
+    :root { --mono: "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace; }
+    
+  .term { fill: #1C1B1A; }
+  .bar { fill: #2A2825; }
+  .dot-r { fill: #FF5F57; }
+  .dot-y { fill: #FEBC2E; }
+  .dot-g { fill: #28C840; }
+  .prompt { fill: #5DCAA5; font: 400 13px var(--mono); }
+  .cmd { fill: #F1EFE8; font: 400 13px var(--mono); }
+  .head { fill: #EF9F27; font: 500 14px var(--mono); }
+  .out { fill: #C9C6BC; font: 400 13px var(--mono); }
+  .dim { fill: #8A8779; font: 400 13px var(--mono); }
+  .pay { fill: #F1EFE8; font: 500 15px var(--mono); }
+  .per { fill: #EF9F27; font: 500 15px var(--mono); }
+  .title { fill: #8A8779; font: 400 12px var(--mono); }
+  .line { opacity: 0; animation: show .01s linear forwards; }
+  .cursor { fill: #EF9F27; animation: blink 1s steps(1) infinite; }
+  .wipe { fill: #1C1B1A; transform-origin: right center; animation: wipe 1.6s steps(30) .3s forwards; }
+  .flash { opacity: 0; animation: flash .5s ease-out forwards; }
+  @keyframes show { to { opacity: 1; } }
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes wipe { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @keyframes flash { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .line, .flash { opacity: 1; animation: none; }
+    .wipe { display: none; }
+    .cursor { animation: none; }
+  }
+
+  </style>
+  <rect class="term" x="0" y="0" width="680" height="462" rx="12"/>
+  <rect class="bar" x="0" y="0" width="680" height="36" rx="12"/>
+  <rect class="bar" x="0" y="24" width="680" height="12"/>
+  <circle class="dot-r" cx="20" cy="18" r="5"/>
+  <circle class="dot-y" cx="38" cy="18" r="5"/>
+  <circle class="dot-g" cx="56" cy="18" r="5"/>
+  <text class="title" x="340" y="22" text-anchor="middle">mcd-host — zsh — 80×24</text>
+
+  <text class="prompt" x="28" y="66">$</text>
+  <text class="cmd" x="46" y="66">mcd-host demo --people 6 --budget 300</text>
+  <rect class="wipe" x="46" y="52" width="289" height="22"/>
+  <rect class="cursor" x="341" y="54" width="8" height="16" style="animation-delay:2.0s"/>
+
+    <text x="28" y="96" class="head line" style="animation-delay:2.10s">麦门东道主 · 请客参谋</text>
+  <text x="28" y="118" class="dim line" style="animation-delay:2.38s">一桌菜（6 人 · 晚饭）</text>
+  <text x="28" y="140" class="out line" style="animation-delay:2.62s">  麦辣鸡腿堡套餐（套餐）×2               ¥78.00</text>
+  <text x="28" y="162" class="out line" style="animation-delay:2.78s">  板烧鸡腿堡套餐（套餐）×2               ¥79.00</text>
+  <text x="28" y="184" class="out line" style="animation-delay:2.94s">  巨无霸套餐（套餐）×2                 ¥83.00</text>
+  <text x="28" y="206" class="out line" style="animation-delay:3.10s">  玉米杯（side）×1                 ¥9.00</text>
+  <text x="28" y="228" class="out line" style="animation-delay:3.26s">  中薯条（side）×2                 ¥23.00</text>
+  <text x="28" y="250" class="out line" style="animation-delay:3.42s">  甜筒（dessert）×2               ¥12.00</text>
+  <text x="28" y="272" class="out line" style="animation-delay:3.58s">  菠萝派（dessert）×1              ¥7.50</text>
+  <text x="28" y="294" class="dim line" style="animation-delay:3.74s"></text>
+  <text x="28" y="316" class="out line" style="animation-delay:3.86s">  小计                          ¥291.50</text>
+  <text x="28" y="338" class="out line" style="animation-delay:4.00s">  优惠（满100减20）           -¥20.00</text>
+  <text x="28" y="360" class="pay line flash" style="animation-delay:4.14s">  应付                        ¥271.50</text>
+  <text x="28" y="382" class="per line flash" style="animation-delay:4.28s">  人均                        ¥45.25</text>
+  <text x="28" y="404" class="dim line" style="animation-delay:4.42s">  人均约 970 千卡 · 分享卡片已生成</text>
+</svg>

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import html
 from typing import Optional
 
@@ -59,7 +60,115 @@ def _yuan(cents: int) -> str:
     return f"¥{cents / 100:.2f}"
 
 
+def _barcode(seed_text: str, width: int, x: float, y: float, height: float = 34) -> str:
+    """由方案内容确定性生成装饰条形码（纯 SVG rect，无随机依赖）。"""
+    digest = hashlib.sha256(seed_text.encode("utf-8")).digest()
+    bars = []
+    cursor = x
+    index = 0
+    while cursor < x + width - 2:
+        byte = digest[index % len(digest)]
+        bar_width = 1 + (byte % 3)
+        if byte % 5 != 0:  # 偶尔留白
+            bars.append(f'<rect x="{cursor:.1f}" y="{y}" width="{bar_width}" height="{height}" class="ink"/>')
+        cursor += bar_width + 1 + (byte % 2)
+        index += 1
+    return "".join(bars)
+
+
+def render_receipt_svg(
+    plan: Plan,
+    store: str = "",
+    date: str = "",
+    host: str = "",
+) -> str:
+    """竖版热敏小票风请客方案卡（适合发朋友圈/小红书）。"""
+    occasion = _OCCASION_LABELS.get(plan.occasion, plan.occasion or "请客")
+    rows = []
+    y = 150
+    for line in plan.lines:
+        kind_label = _KIND_LABELS.get(line.kind, line.kind)
+        name = html.escape(line.name)
+        qty = f"x{line.qty}"
+        price = _yuan(line.total)
+        rows.append(
+            f'<text class="row ink" x="46" y="{y}">{name}<tspan class="muted" dx="4">{kind_label}</tspan></text>'
+            f'<text class="row ink" x="374" y="{y}" text-anchor="end">{qty} {price}</text>'
+        )
+        y += 24
+    bottom = y + 6
+
+    coupon_row = ""
+    if plan.coupon is not None:
+        coupon_row = (
+            f'<text class="row ink" x="46" y="{bottom + 22}">优惠 {html.escape(plan.coupon.name)}</text>'
+            f'<text class="rowb" x="374" y="{bottom + 22}" text-anchor="end" fill="#1D9E75">-{_yuan(plan.coupon_saving)}</text>'
+        )
+        bottom += 24
+
+    height = bottom + 210
+    store_text = f'<tspan class="meta muted">{html.escape(store)}</tspan>' if store else ""
+    host_text = f'<tspan class="meta muted">东道主 {html.escape(host)}</tspan>' if host else ""
+    date_text = f'<tspan class="meta muted">{html.escape(date)}</tspan>' if date else ""
+
+    seed = f"{plan.occasion}{plan.people}{plan.payable}" + "".join(line.name for line in plan.lines)
+    zigzag_top = " ".join(f"{46 + i * 12},24 {52 + i * 12},32" for i in range(26))
+    zigzag_bottom = " ".join(f"{46 + i * 12},{height - 8} {52 + i * 12},{height - 16}" for i in range(26))
+
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 {height}" width="100%" role="img">
+  <title>麦门东道主 · 请客小票</title>
+  <desc>{plan.people} 人{occasion}请客小票，应付 {_yuan(plan.payable)}，人均 {_yuan(plan.per_person)}</desc>
+  <style>
+    :root {{ --sans: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; --mono: "SF Mono", Menlo, Consolas, "Courier New", monospace; }}
+    {_STYLE}
+    @media (prefers-color-scheme: dark) {{
+      :root {{ --bg: #1C1B1A; --panel: #26241F; --border: #4A473E; --ink: #F1EFE8; --muted: #A9A69B; --rule: #4A473E; --accent: #EF9F27; }}
+    }}
+    @media (prefers-color-scheme: light) {{
+      :root {{ --bg: #FAEEDA; --panel: #FFFEF9; --border: #E5DCC8; --ink: #412402; --muted: #854F0B; --rule: #E5DCC8; --accent: #EF9F27; }}
+    }}
+  </style>
+  <rect class="bg" x="0" y="0" width="420" height="{height}" rx="4"/>
+  <polyline class="accent" points="{zigzag_top}" fill="none" stroke-width="2"/>
+  <rect class="panel" x="34" y="30" width="352" height="{height - 60}" rx="6"/>
+
+  <text class="title ink" x="210" y="66" text-anchor="middle">麦门东道主</text>
+  <text class="sub muted" x="210" y="88" text-anchor="middle">请客小票 · {occasion} · {plan.people} 人</text>
+  <text class="meta muted" x="210" y="110" text-anchor="middle">{store_text}{host_text}{date_text}</text>
+  <line class="rule" x1="46" y1="124" x2="374" y2="124"/>
+
+  {''.join(chr(10) + '  ' + row for row in rows)}
+
+  <line class="rule" x1="46" y1="{bottom + 4}" x2="374" y2="{bottom + 4}"/>
+  <text class="row muted" x="46" y="{bottom + 22}">小计</text>
+  <text class="rowb ink" x="374" y="{bottom + 22}" text-anchor="end">{_yuan(plan.subtotal)}</text>
+  {coupon_row}
+  <text class="amount ink" x="46" y="{bottom + (52 if plan.coupon is not None else 32)}">应付</text>
+  <text class="big ink" x="374" y="{bottom + (52 if plan.coupon is not None else 32)}" text-anchor="end">{_yuan(plan.payable)}</text>
+
+  <line class="rule" x1="46" y1="{bottom + (70 if plan.coupon is not None else 50)}" x2="374" y2="{bottom + (70 if plan.coupon is not None else 50)}"/>
+  <text class="rowb" x="210" y="{bottom + (96 if plan.coupon is not None else 76)}" text-anchor="middle">人均 {_yuan(plan.per_person)}</text>
+  {_barcode(seed, 200, 110, bottom + (110 if plan.coupon is not None else 90))}
+  <text class="small muted" x="210" y="{height - 66}" text-anchor="middle">数据来自麦当劳中国 MCP · 非官方参赛作品</text>
+  <text class="small muted" x="210" y="{height - 48}" text-anchor="middle">mcd-host 生成 · 金额以实时价格为准</text>
+  <polyline class="accent" points="{zigzag_bottom}" fill="none" stroke-width="2"/>
+</svg>'''
+    return svg
+
+
 def render_card_svg(
+    plan: Plan,
+    store: str = "",
+    date: str = "",
+    host: str = "",
+    style: str = "card",
+) -> str:
+    if style == "receipt":
+        return render_receipt_svg(plan, store=store, date=date, host=host)
+    return _render_card_svg(plan, store=store, date=date, host=host)
+
+
+def _render_card_svg(
     plan: Plan,
     store: str = "",
     date: str = "",

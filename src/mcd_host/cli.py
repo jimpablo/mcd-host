@@ -126,7 +126,7 @@ def _cmd_plan(args) -> int:
     card_path = None
     if args.card or args.output:
         card_path = args.output or "mcd-host-card.svg"
-        svg = render_card_svg(plan, store=store, date=args.date or _today(), host=args.host or "")
+        svg = render_card_svg(plan, store=store, date=args.date or _today(), host=args.host or "", style=args.style)
         with open(card_path, "w", encoding="utf-8") as fh:
             fh.write(svg)
 
@@ -163,7 +163,7 @@ def _cmd_card(args) -> int:
         return _fail(str(exc), json_mode)
 
     path = args.output or "mcd-host-card.svg"
-    svg = render_card_svg(plan, store=store, date=args.date or _today(), host=args.host or "")
+    svg = render_card_svg(plan, store=store, date=args.date or _today(), host=args.host or "", style=args.style)
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(svg)
     if json_mode:
@@ -312,6 +312,7 @@ def build_parser() -> argparse.ArgumentParser:
     plan.add_argument("--host", help="东道主名字（只用于展示）")
     plan.add_argument("--date", help="日期，默认今天，如 2026-10-24")
     plan.add_argument("--card", action="store_true", help="同时生成分享卡片 SVG")
+    plan.add_argument("--style", choices=["card", "receipt"], default="card", help="卡片样式：card 方案卡 / receipt 请客小票")
     plan.add_argument("-o", "--output", help="卡片输出路径")
     plan.add_argument("--demo", action="store_true", help="用合成数据演示，不需要 Token")
     plan.add_argument("--json", action="store_true", help="输出机器可读 JSON")
@@ -320,6 +321,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     card = sub.add_parser("card", help="由方案 JSON 生成分享卡片")
     card.add_argument("--plan", help="plan --json 输出的方案 JSON 文件")
+    card.add_argument("--style", choices=["card", "receipt"], default="card", help="卡片样式：card 方案卡 / receipt 请客小票")
     card.add_argument("--store", help="门店名称")
     card.add_argument("--host", help="东道主名字")
     card.add_argument("--date", help="日期")
@@ -332,6 +334,7 @@ def build_parser() -> argparse.ArgumentParser:
     demo.add_argument("--people", type=int, default=6)
     demo.add_argument("--budget", default="300")
     demo.add_argument("--occasion", default="dinner")
+    demo.add_argument("--style", choices=["card", "receipt"], default="card")
     demo.add_argument("--avoid", default="")
     demo.add_argument("--prefer", default="")
     demo.add_argument("--must", default="")
